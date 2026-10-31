@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR UPI Silihwangi")
+st.caption("Ditha Okstevia - Eisha Karima Fidareini - Nailah Amani Nuryaman - Nesa Dwi Rizqi Marsha Reneta - Wafa Nidaul Hasanah - Kelompok 6 - Proyek MSTR UPI")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -23,7 +23,6 @@ st.sidebar.header("⚙️ Panel Parameter Simulator")
 
 # Pilihan Sesi Jam Operasional
 sesi = st.sidebar.selectbox("Pilih Sesi Jam Operasional:", ["Pagi (06.30 - 08.00 WIB)", "Sore (16.00 - 16.30 WIB)"])
-jam_mulai_str = "06:30" if "Pagi" in sesi else "16:00"
 
 # Slider Kecepatan Armada (km/jam)
 kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):", min_value=5, max_value=25, value=15, step=1)
@@ -49,7 +48,7 @@ data_jarak = {
         "FPTK ➔ FPOK/Gymnasium",
         "FPOK/Gymnasium ➔ FPTI"
     ],
-    "Estimasi Jarak (Meter)": [400, 350, 500, 300, 450, 600]
+    "Estimasi Jarak (Meter)": [450, 400, 500, 350, 450, 600]
 }
 
 df_jarak = pd.DataFrame(data_jarak)
@@ -79,14 +78,20 @@ total_siklus_menit = df_edited["Total Waktu Leg (Menit)"].sum()
 st.success(f"**Total Waktu 1 Siklus Putar Lengkap**: ± **{total_siklus_menit:.1f} Menit** (pada kecepatan {kecepatan_kmjam} km/jam & dwell time {dwell_time} menit)")
 
 # ---------------------------------------------------------
-# 5. TABEL JADWAL KEBERANGKATAN 3 ARMADA (3 TITIK AWAL BERBEDA)
+# 5. TABEL JADWAL KEBERANGKATAN 3 ARMADA (DINAMIS SESUAI SESI)
 # ---------------------------------------------------------
 st.markdown("---")
 st.subheader("2️⃣ Draf Jadwal Keberangkatan Terstruktur (3 Titik Keberangkatan Berbeda)")
 
+# Penyesuaian jam otomatis berdasarkan pilihan Sesi (Pagi / Sore)
+if "Pagi" in sesi:
+    jam_list = ["06.30 WIB", "06.45 WIB", "07.00 WIB", "07.15 WIB", "07.30 WIB", "07.45 WIB"]
+else:
+    jam_list = ["16.00 WIB", "16.15 WIB", "16.30 WIB", "16.45 WIB", "17.00 WIB", "17.15 WIB"]
+
 # Jadwal simulative 3 armada dari 3 titik awal yang berbeda
 jadwal_data = {
-    "Jam Keberangkatan": ["06.30 WIB", "06.45 WIB", "07.00 WIB", "07.15 WIB", "07.30 WIB", "07.45 WIB"],
+    "Jam Keberangkatan": jam_list,
     "Odong-Odong 1 (Start: FPTI)": ["FPTI (Gerbang Bawah)", "FIP / FPSD", "FPEB / Rektorat", "FPMIPA (Kampus Atas)", "FPTK", "FPOK / Gymnasium"],
     "Odong-Odong 2 (Start: FPMIPA)": ["FPMIPA (Kampus Atas)", "FPTK", "FPOK / Gymnasium", "FPTI (Gerbang Bawah)", "FIP / FPSD", "FPEB / Rektorat"],
     "Odong-Odong 3 (Start: FPEB)": ["FPEB / Rektorat", "FPMIPA (Kampus Atas)", "FPTK", "FPOK / Gymnasium", "FPTI (Gerbang Bawah)", "FIP / FPSD"]
@@ -128,6 +133,10 @@ for h in halte_list:
 
 # Gambar garis rute jalur terhubung
 coords.append(coords[0]) # Tutup siklus
+folium.PolyLine(coords, color="darkblue", weight=3, opacity=0.8, tooltip="Jalur Rute Odong-Odong UPI").add_to(m)
+
+# Tampilkan Peta di Streamlit
+st_folium(m, width=1100, height=500)
 folium.PolyLine(coords, color="darkblue", weight=3, opacity=0.8, tooltip="Jalur Rute Odong-Odong UPI").add_to(m)
 
 # Tampilkan Peta di Streamlit
