@@ -34,7 +34,7 @@ st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordina
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
 
 leg_list = [
-    "Leg 1: Halte 1 (FPTI - Gedung A-D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
+    "Leg 1: Halte 1 (FPTI - Gedung A-D Gerbang Bawah) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
     "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Harsojo)",
     "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Gedung FPOK Utama)",
     "Leg 4: Halte 4 (FPOK - Gedung FPOK) ➔ Halte 5 (FK - Gedung Fakultas Kedokteran)",
@@ -42,7 +42,7 @@ leg_list = [
     "Leg 6: Halte 6 (FPEB - Gedung FPEB) ➔ Halte 7 (FPSD - Gedung FPSD Utama)",
     "Leg 7: Halte 7 (FPSD - Gedung FPSD) ➔ Halte 8 (FPBS - Gedung FPBS / ATM Center)",
     "Leg 8: Halte 8 (FPBS - Gedung FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS Utama)",
-    "Leg 9: Halte 9 (FPIPS - Gedung FPIPS) ➔ Halte 1 (FPTI - Gedung A-D)"
+    "Leg 9: Halte 9 (FPIPS - Gedung FPIPS) ➔ Halte 1 (FPTI - Gedung A-D Gerbang Bawah)"
 ]
 
 jarak_list = [280, 300, 250, 300, 350, 200, 220, 250, 300]
@@ -141,8 +141,8 @@ data_koordinat_awal = {
         "Halte 8: FPBS (Gedung FPBS / ATM Center)",
         "Halte 9: FPIPS (Gedung FPIPS Utama)"
     ],
-    "Latitude": [-6.8637, -6.8614, -6.8618, -6.8603, -6.8602, -6.8587, -6.8582, -6.8590, -6.8600],
-    "Longitude": [107.5925, 107.5916, 107.5898, 107.5898, 107.5914, 107.5930, 107.5944, 107.5948, 107.5936],
+    "Latitude": [-6.8643, -6.8614, -6.8612, -6.8600, -6.8596, -6.8588, -6.8584, -6.8590, -6.8598],
+    "Longitude": [107.5934, 107.5916, 107.5898, 107.5898, 107.5914, 107.5928, 107.5942, 107.5948, 107.5938],
     "Warna Icon": ["blue", "green", "red", "darkred", "cadetblue", "orange", "darkgreen", "darkblue", "purple"]
 }
 
