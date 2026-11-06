@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi 9 Fakultas dari Screenshot OSM)")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi Sesuai Arahan Video & Screenshot OSM)")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -29,24 +29,24 @@ jumlah_armada = 3  # Fixed 3 Armada Aktif
 st.sidebar.info("💡 **Catatan**: Mengubah angka pada panel akan otomatis mengalkulasi rumus matematika waktu tempuh, headway, waktu tunggu, dan tabel jadwal di bawah.")
 
 # ---------------------------------------------------------
-# 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS MATCHING SCREENSHOTS)
+# 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS SESUAI ARAHAN VIDEO)
 # ---------------------------------------------------------
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
-st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai alur rute lingkar kampus (Tangkapan Layar OSM):")
+st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai rute lingkar kampus (Arahan Video & Screenshot OSM):")
 
 data_jarak = {
-    "Leg Rute Lingkar Kampus (Sesuai Tangkapan Layar OSM)": [
-        "Leg 1: Halte 1 (FPTK/FPTI - Gerbang Bawah) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
-        "Leg 2: Halte 2 (FIP Baru) ➔ Halte 3 (FK - Fakultas Kedokteran)",
-        "Leg 3: Halte 3 (FK) ➔ Halte 4 (FPMIPA - Gedung JICA / Jl. Harsojo)",
-        "Leg 4: Halte 4 (FPMIPA) ➔ Halte 5 (FPOK - Jl. Harsojo)",
-        "Leg 5: Halte 5 (FPOK) ➔ Halte 6 (FPEB - Jl. Roeslan Abdulgani)",
-        "Leg 6: Halte 6 (FPEB) ➔ Halte 7 (FPSD - Jl. Roeslan Abdulgani / Sri Baduga)",
-        "Leg 7: Halte 7 (FPSD) ➔ Halte 8 (FPIPS - Jl. Sri Baduga)",
-        "Leg 8: Halte 8 (FPIPS) ➔ Halte 9 (FPBS - Jl. Sri Baduga / Muh Yamin)",
-        "Leg 9: Halte 9 (FPBS) ➔ Halte 1 (FPTK/FPTI - Gerbang Bawah)"
+    "Leg Rute Lingkar Kampus (Arahan Video & Screenshot OSM)": [
+        "Leg 1: Halte 1 (FPTK/FPTI - Depan Gedung Parkir & Gedung D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
+        "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Jl. Harsojo)",
+        "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Jl. Harsojo / Gymnasium)",
+        "Leg 4: Halte 4 (FPOK - Jl. Harsojo) ➔ Halte 5 (FK - Fakultas Kedokteran / Jl. Mahaguru)",
+        "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Depan LPPM / Jl. Roeslan Abdulgani)",
+        "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Depan FPSD / Taman)",
+        "Leg 7: Halte 7 (FPSD - Taman / Jl. Roeslan Abdulgani) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
+        "Leg 8: Halte 8 (FPBS - ATM Center FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS / Jl. Sri Baduga)",
+        "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTK/FPTI - Depan Gedung Parkir & Gedung D)"
     ],
-    "Estimasi Jarak (Meter)": [280, 200, 350, 250, 400, 220, 250, 220, 430]
+    "Estimasi Jarak (Meter)": [1-3]
 }
 
 df_jarak = pd.DataFrame(data_jarak)
@@ -90,29 +90,29 @@ else:
 
 jadwal_data = {
     "Jam Keberangkatan": jam_keberangkatan,
-    "Odong-Odong 1 (Start: Halte 1 FPTK/FPTI - Gerbang Bawah)": [
-        "FPTK/FPTI ➔ FIP ➔ FK ➔ FPMIPA",
-        "FPOK ➔ FPEB ➔ FPSD",
-        "FPIPS ➔ FPBS ➔ FPTK/FPTI",
-        "FPTK/FPTI ➔ FIP ➔ FK ➔ FPMIPA",
-        "FPOK ➔ FPEB ➔ FPSD",
-        "FPIPS ➔ FPBS ➔ FPTK/FPTI"
+    "Odong-Odong 1 (Start: Halte 1 FPTK/FPTI - Depan Gedung Parkir & Gedung D)": [
+        "FPTK/FPTI ➔ FIP Baru ➔ FPMIPA",
+        "FPOK ➔ FK ➔ FPEB",
+        "FPSD ➔ FPBS ➔ FPIPS ➔ FPTK/FPTI",
+        "FPTK/FPTI ➔ FIP Baru ➔ FPMIPA",
+        "FPOK ➔ FK ➔ FPEB",
+        "FPSD ➔ FPBS ➔ FPIPS ➔ FPTK/FPTI"
     ],
-    "Odong-Odong 2 (Start: Halte 4 FPMIPA - Gedung JICA)": [
-        "FPMIPA ➔ FPOK ➔ FPEB ➔ FPSD",
-        "FPIPS ➔ FPBS ➔ FPTK/FPTI",
-        "FIP ➔ FK ➔ FPMIPA",
-        "FPMIPA ➔ FPOK ➔ FPEB ➔ FPSD",
-        "FPIPS ➔ FPBS ➔ FPTK/FPTI",
-        "FIP ➔ FK ➔ FPMIPA"
+    "Odong-Odong 2 (Start: Halte 3 FPMIPA - Gedung JICA / Harsojo)": [
+        "FPMIPA ➔ FPOK ➔ FK ➔ FPEB",
+        "FPSD ➔ FPBS ➔ FPIPS",
+        "FPTK/FPTI ➔ FIP Baru ➔ FPMIPA",
+        "FPMIPA ➔ FPOK ➔ FK ➔ FPEB",
+        "FPSD ➔ FPBS ➔ FPIPS",
+        "FPTK/FPTI ➔ FIP Baru ➔ FPMIPA"
     ],
-    "Odong-Odong 3 (Start: Halte 6 FPEB - Jl. Roeslan Abdulgani)": [
-        "FPEB ➔ FPSD ➔ FPIPS ➔ FPBS",
-        "FPTK/FPTI ➔ FIP ➔ FK",
-        "FPMIPA ➔ FPOK ➔ FPEB",
-        "FPEB ➔ FPSD ➔ FPIPS ➔ FPBS",
-        "FPTK/FPTI ➔ FIP ➔ FK",
-        "FPMIPA ➔ FPOK ➔ FPEB"
+    "Odong-Odong 3 (Start: Halte 6 FPEB - Depan LPPM / Roeslan Abdulgani)": [
+        "FPEB ➔ FPSD ➔ FPBS ➔ FPIPS",
+        "FPTK/FPTI ➔ FIP Baru ➔ FPMIPA",
+        "FPOK ➔ FK ➔ FPEB",
+        "FPEB ➔ FPSD ➔ FPBS ➔ FPIPS",
+        "FPTK/FPTI ➔ FIP Baru ➔ FPMIPA",
+        "FPOK ➔ FK ➔ FPEB"
     ]
 }
 
@@ -120,24 +120,24 @@ df_jadwal = pd.DataFrame(jadwal_data)
 st.table(df_jadwal)
 
 # ---------------------------------------------------------
-# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (MATCHING SCREENSHOTS)
+# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (PRESISI VIDEO & SCREENSHOTS)
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas (Presisi Tangkapan Layar OSM)")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas (Presisi Arahan Video & Screenshots)")
 
-m = folium.Map(location=[-6.8610, 107.5928], zoom_start=16)
+m = folium.Map(location=[-6.8610, 107.5925], zoom_start=17)
 
-# 9 Halte presisi sesuai posisi lingkaran hijau pada 9 tangkapan layar OSM:
+# 9 Halte presisi sesuai posisi lingkaran hijau dan penjelasan video pengunggah:
 halte_9 = [
-    {"nama": "Halte 1: FPTK / FPTI (Gedung A-D FPTI - Gerbang Bawah - Depot 1)", "pos": [-6.8633, 107.5932], "color": "blue"},
-    {"nama": "Halte 2: FIP (FIP Baru - Jalan Mahaguru)", "pos": [-6.8617, 107.5925], "color": "green"},
-    {"nama": "Halte 3: FK (Fakultas Kedokteran - Jalan Mahaguru)", "pos": [-6.8605, 107.5925], "color": "cadetblue"},
-    {"nama": "Halte 4: FPMIPA (Gedung JICA / FPMIPA-A - Jalan Harsojo - Depot 2)", "pos": [-6.8615, 107.5905], "color": "red"},
-    {"nama": "Halte 5: FPOK (Fakultas Pendidikan Olahraga & Kesehatan - Jalan Harsojo)", "pos": [-6.8600, 107.5905], "color": "darkred"},
-    {"nama": "Halte 6: FPEB (Fakultas Ekonomi & Bisnis - Jalan Roeslan Abdulgani - Depot 3)", "pos": [-6.8588, 107.5932], "color": "orange"},
-    {"nama": "Halte 7: FPSD (Fakultas Seni & Desain - Jalan Roeslan Abdulgani / Sri Baduga)", "pos": [-6.8585, 107.5945], "color": "darkgreen"},
-    {"nama": "Halte 8: FPIPS (Fakultas Ilmu Pengetahuan Sosial - Jalan Sri Baduga)", "pos": [-6.8600, 107.5942], "color": "purple"},
-    {"nama": "Halte 9: FPBS (Fakultas Bahasa & Sastra - Jalan Sri Baduga / Muh Yamin)", "pos": [-6.8605, 107.5950], "color": "darkblue"}
+    {"nama": "Halte 1: FPTK / FPTI (Depan Gedung Parkir & Gedung D FPTI - Depot 1)", "pos": [-6.8633, 107.5918], "color": "blue"},
+    {"nama": "Halte 2: FIP Baru (Gedung FIP Baru - Jalan Mahaguru)", "pos": [-6.8614, 107.5918], "color": "green"},
+    {"nama": "Halte 3: FPMIPA (Gedung JICA / FPMIPA-A - Jalan Harsojo - Depot 2)", "pos": [-6.8612, 107.5900], "color": "red"},
+    {"nama": "Halte 4: FPOK (Fakultas Olahraga & Kesehatan - Jalan Harsojo)", "pos": [-6.8600, 107.5905], "color": "darkred"},
+    {"nama": "Halte 5: FK (Fakultas Kedokteran - Jalan Mahaguru / Utara FIP Lama)", "pos": [-6.8600, 107.5918], "color": "cadetblue"},
+    {"nama": "Halte 6: FPEB (Depan LPPM / Gedung FPEB - Jl. Roeslan Abdulgani - Depot 3)", "pos": [-6.8588, 107.5928], "color": "orange"},
+    {"nama": "Halte 7: FPSD (Depan FPSD / Taman - Jl. Roeslan Abdulgani)", "pos": [-6.8588, 107.5945], "color": "darkgreen"},
+    {"nama": "Halte 8: FPBS (ATM Center FPBS - Jl. Sri Baduga / Muh Yamin)", "pos": [-6.8596, 107.5948], "color": "darkblue"},
+    {"nama": "Halte 9: FPIPS (Gedung FPIPS - Jl. Sri Baduga)", "pos": [-6.8600, 107.5938], "color": "purple"}
 ]
 
 coords = []
@@ -150,9 +150,9 @@ for h in halte_9:
         icon=folium.Icon(color=h["color"], icon="bus", prefix="fa")
     ).add_to(m)
 
-# Menutup rute lingkar kampus (kembali ke Halte 1 FPTK/FPTI)
-coords.append(halte_9[0]["pos"])
+# Menutup rute lingkar kampus (kembali ke Halte 1 FPTK/FPTI Depan Gedung Parkir)
+coords.append(halte_9["pos"])
 
-folium.PolyLine(coords, color="darkblue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Fakultas Presisi OSM").add_to(m)
+folium.PolyLine(coords, color="darkblue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Fakultas Presisi Video & OSM").add_to(m)
 
 st_folium(m, width=1100, height=500)
