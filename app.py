@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
+import datetime
 
 # ---------------------------------------------------------
 # 1. KONFIGURASI HALAMAN DASHBOARD
@@ -13,7 +14,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi 9 Gedung Fakultas)")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi Screenshot 025247 & Timetable Dinamis)")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -26,7 +27,7 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordinat halte secara langsung pada tabel di bawah untuk menyesuaikan posisi penanda di peta.")
+st.sidebar.info("💡 **Petunjuk**: Mengubah kecepatan, dwell time, atau jarak leg di bawah akan secara otomatis mengalkulasi ulang seluruh jam & menit kedatangan bus di tiap halte pada Tabel Jadwal!")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
@@ -92,52 +93,87 @@ with col4:
 st.markdown("---")
 
 # ---------------------------------------------------------
-# 5. TABEL JADWAL KEBERANGKATAN TERSTRUKTUR (3 DEPOT AWAL)
+# 5. TABEL JADWAL PRESISI WAKTU KEDATANGAN PER HALTE (TIMETABLE DINAMIS)
 # ---------------------------------------------------------
-st.subheader("2️⃣ Draf Jadwal Keberangkatan Terstruktur (3 Depot Awal Berbeda)")
+st.subheader("2️⃣ Tabel Jadwal Presisi Waktu Kedatangan di Setiap Halte (Timetable Dinamis)")
+st.write("Jadwal di bawah ini **terkalkulasi secara otomatis** berdasarkan waktu tempuh dan dwell time untuk setiap odong-odong:")
 
-if "Pagi" in sesi:
-    jam_keberangkatan = ["06.30 WIB", "06.45 WIB", "07.00 WIB", "07.15 WIB", "07.30 WIB", "07.45 WIB"]
-else:
-    jam_keberangkatan = ["16.00 WIB", "16.15 WIB", "16.30 WIB", "16.45 WIB", "17.00 WIB", "17.15 WIB"]
+halte_names = [
+    "Halte 1 (FPTI - Gerbang Bawah)",
+    "Halte 2 (FIP Baru)",
+    "Halte 3 (FPMIPA - JICA)",
+    "Halte 4 (FPOK Utama)",
+    "Halte 5 (FK Kedokteran)",
+    "Halte 6 (FPEB Utama)",
+    "Halte 7 (FPSD Utama)",
+    "Halte 8 (FPBS / ATM Center)",
+    "Halte 9 (FPIPS Utama)"
+]
 
-jadwal_data = {
-    "Jam Keberangkatan": jam_keberangkatan,
-    "Odong-Odong 1 (Start: Halte 1 FPTI - Gedung A-D)": [
-        "FPTI ➔ FIP Baru ➔ FPMIPA",
-        "FPOK ➔ FK ➔ FPEB",
-        "FPSD ➔ FPBS ➔ FPIPS ➔ FPTI",
-        "FPTI ➔ FIP Baru ➔ FPMIPA",
-        "FPOK ➔ FK ➔ FPEB",
-        "FPSD ➔ FPBS ➔ FPIPS ➔ FPTI"
-    ],
-    "Odong-Odong 2 (Start: Halte 3 FPMIPA - Gedung JICA / Harsojo)": [
-        "FPMIPA ➔ FPOK ➔ FK ➔ FPEB",
-        "FPSD ➔ FPBS ➔ FPIPS",
-        "FPTI ➔ FIP Baru ➔ FPMIPA",
-        "FPMIPA ➔ FPOK ➔ FK ➔ FPEB",
-        "FPSD ➔ FPBS ➔ FPIPS",
-        "FPTI ➔ FIP Baru ➔ FPMIPA"
-    ],
-    "Odong-Odong 3 (Start: Halte 6 FPEB - Gedung FPEB Utama)": [
-        "FPEB ➔ FPSD ➔ FPBS ➔ FPIPS",
-        "FPTI ➔ FIP Baru ➔ FPMIPA",
-        "FPOK ➔ FK ➔ FPEB",
-        "FPEB ➔ FPSD ➔ FPBS ➔ FPIPS",
-        "FPTI ➔ FIP Baru ➔ FPMIPA",
-        "FPOK ➔ FK ➔ FPEB"
-    ]
-}
+leg_durations = df_edited["Total Waktu Leg (Menit)"].tolist()
 
-df_jadwal = pd.DataFrame(jadwal_data)
-st.table(df_jadwal)
+def build_timetable(start_halte_idx, start_hour_str, trips=2):
+    sh, sm = map(int, start_hour_str.split('.'))
+    base_dt = datetime.datetime(2026, 11, 6, sh, sm)
+    
+    rows = []
+    num_haltes = len(halte_names)
+    
+    curr_dt = base_dt
+    for trip in range(1, trips + 1):
+        for step in range(num_haltes):
+            h_idx = (start_halte_idx + step) % num_haltes
+            h_name = halte_names[h_idx]
+            
+            rows.append({
+                "Putaran / Trip": f"Trip {trip}",
+                "Nama Halte Singgah": h_name,
+                "Jam Kedatangan Presisi": curr_dt.strftime("%H.%M WIB")
+            })
+            
+            # Tambah durasi leg ke halte berikutnya
+            dur = leg_durations[h_idx]
+            curr_dt += datetime.timedelta(minutes=dur)
+            
+        # Akhir putaran kembali ke halte asal
+        origin_name = halte_names[start_halte_idx]
+        rows.append({
+            "Putaran / Trip": f"Trip {trip} (Selesai)",
+            "Nama Halte Singgah": f"Kembali ke {origin_name}",
+            "Jam Kedatangan Presisi": curr_dt.strftime("%H.%M WIB")
+        })
+        
+    return pd.DataFrame(rows)
+
+start_time_base = "06.30" if "Pagi" in sesi else "16.00"
+
+tab1, tab2, tab3 = st.tabs([
+    "🚌 Odong 1 (Start: Halte 1 FPTI)",
+    "🚌 Odong 2 (Start: Halte 3 FPMIPA)",
+    "🚌 Odong 3 (Start: Halte 6 FPEB)"
+])
+
+with tab1:
+    st.markdown("**Jadwal Keberangkatan & Kedatangan Odong-Odong 1 (Start Halte 1 FPTI)**")
+    df_o1 = build_timetable(0, start_time_base, trips=2)
+    st.dataframe(df_o1, use_container_width=True, hide_index=True)
+
+with tab2:
+    st.markdown("**Jadwal Keberangkatan & Kedatangan Odong-Odong 2 (Start Halte 3 FPMIPA)**")
+    df_o2 = build_timetable(2, start_time_base, trips=2)
+    st.dataframe(df_o2, use_container_width=True, hide_index=True)
+
+with tab3:
+    st.markdown("**Jadwal Keberangkatan & Kedatangan Odong-Odong 3 (Start Halte 6 FPEB)**")
+    df_o3 = build_timetable(5, start_time_base, trips=2)
+    st.dataframe(df_o3, use_container_width=True, hide_index=True)
 
 # ---------------------------------------------------------
-# 6. PANEL EDIT KOORDINAT LIVE & PETA INTERAKTIF
+# 6. PANEL EDIT KOORDINAT LIVE & PETA INTERAKTIF (PRESISI SCREENSHOT 025247)
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat")
-st.write("Ubah angka Latitude / Longitude langsung pada tabel di bawah ini untuk menggeser titik halte secara live:")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat (Presisi Screenshot 025247)")
+st.write("Angka koordinat di bawah disesuaikan presisi dengan tangkapan layar **Screenshot 2026-11-07 025247.png**. Anda tetap dapat mengedit angkanya secara live jika diperlukan:")
 
 data_koordinat_awal = {
     "Nama Halte": [
@@ -151,8 +187,8 @@ data_koordinat_awal = {
         "Halte 8: FPBS (Gedung FPBS / ATM Center)",
         "Halte 9: FPIPS (Gedung FPIPS Utama)"
     ],
-    "Latitude": [-6.8637, -6.8614, -6.8612, -6.8600, -6.8596, -6.8588, -6.8582, -6.8588, -6.8598],
-    "Longitude": [107.5925, 107.5914, 107.5898, 107.5898, 107.5914, 107.5928, 107.5942, 107.5948, 107.5938],
+    "Latitude": [-6.8637, -6.8617, -6.8620, -6.8610, -6.8608, -6.8603, -6.8602, -6.8606, -6.8613],
+    "Longitude": [107.5925, 107.5911, 107.5904, 107.5900, 107.5912, 107.5925, 107.5933, 107.5940, 107.5927],
     "Warna Icon": ["blue", "green", "red", "darkred", "cadetblue", "orange", "darkgreen", "darkblue", "purple"]
 }
 
@@ -163,7 +199,7 @@ df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_wid
 tile_url = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
 
 m = folium.Map(
-    location=[-6.8608, 107.5925], 
+    location=[-6.8610, 107.5925], 
     zoom_start=17, 
     tiles=tile_url,
     attr="&copy; OpenStreetMap contributors"
