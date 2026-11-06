@@ -46,7 +46,7 @@ data_jarak = {
         "Leg 8: Halte 8 (FPSD) ➔ Halte 9 (FK / Kedokteran)",
         "Leg 9: Halte 9 (FK) ➔ Halte 1 (FPTK/FPTI)"
     ],
-    "Estimasi Jarak (Meter)": [280, 220, 200, 250, 450, 350, 300, 250, 300]
+    "Estimasi Jarak (Meter)": [280, 220, 200, 250, 450, 300, 350, 300, 250]
 }
 
 df_jarak = pd.DataFrame(data_jarak)
@@ -149,7 +149,9 @@ for h in halte_9:
         icon=folium.Icon(color=h["color"], icon="bus", prefix="fa")
     ).add_to(m)
 
-coords.append(coords) # Menutup siklus rute
+# Menutup rute lingkar (kembali ke Halte 1)
+coords.append(halte_9[0]["pos"])
+
 folium.PolyLine(coords, color="darkblue", weight=3, opacity=0.8, tooltip="Rute Odong-Odong 9 Fakultas UPI").add_to(m)
 
 st_folium(m, width=1100, height=500)
