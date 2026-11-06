@@ -29,24 +29,24 @@ jumlah_armada = 3  # Fixed 3 Armada Aktif
 st.sidebar.info("💡 **Catatan**: Mengubah angka pada panel akan otomatis mengalkulasi rumus matematika waktu tempuh, headway, waktu tunggu, dan tabel jadwal di bawah.")
 
 # ---------------------------------------------------------
-# 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS LINGKAR KAMPUS)
+# 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE SESUAI DENAH RESMI UPI)
 # ---------------------------------------------------------
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
-st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai urutan rute lingkar kampus:")
+st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai rute lingkar denah resmi UPI:")
 
 data_jarak = {
-    "Leg Rute Lingkar Kampus": [
-        "Leg 1: Halte 1 (FPTK/FPTI) ➔ Halte 2 (FIP)",
-        "Leg 2: Halte 2 (FIP) ➔ Halte 6 (FPMIPA / Kampus Atas)",
-        "Leg 3: Halte 6 (FPMIPA) ➔ Halte 7 (FPOK / Gymnasium)",
-        "Leg 4: Halte 7 (FPOK) ➔ Halte 5 (FPEB / Rektorat)",
-        "Leg 5: Halte 5 (FPEB) ➔ Halte 3 (FPIPS)",
-        "Leg 6: Halte 3 (FPIPS) ➔ Halte 4 (FPBS)",
-        "Leg 7: Halte 4 (FPBS) ➔ Halte 8 (FPSD)",
-        "Leg 8: Halte 8 (FPSD) ➔ Halte 9 (FK / Kedokteran)",
-        "Leg 9: Halte 9 (FK) ➔ Halte 1 (FPTK/FPTI)"
+    "Leg Rute Lingkar Kampus (Denah UPI)": [
+        "Leg 1: Halte 1 (FPTK/FPTI - Gerbang Bawah) ➔ Halte 2 (FIP)",
+        "Leg 2: Halte 2 (FIP) ➔ Halte 3 (FPMIPA)",
+        "Leg 3: Halte 3 (FPMIPA) ➔ Halte 4 (FK / Kedokteran)",
+        "Leg 4: Halte 4 (FK) ➔ Halte 5 (FPOK / Gymnasium)",
+        "Leg 5: Halte 5 (FPOK) ➔ Halte 6 (FPEB)",
+        "Leg 6: Halte 6 (FPEB) ➔ Halte 7 (FPSD)",
+        "Leg 7: Halte 7 (FPSD) ➔ Halte 8 (FPIPS)",
+        "Leg 8: Halte 8 (FPIPS) ➔ Halte 9 (FPBS)",
+        "Leg 9: Halte 9 (FPBS) ➔ Halte 1 (FPTK/FPTI - Gerbang Bawah)"
     ],
-    "Estimasi Jarak (Meter)": [280, 350, 300, 400, 220, 180, 200, 250, 270]
+    "Estimasi Jarak (Meter)": [280, 250, 200, 300, 450, 220, 250, 200, 350]
 }
 
 df_jarak = pd.DataFrame(data_jarak)
@@ -92,27 +92,27 @@ jadwal_data = {
     "Jam Keberangkatan": jam_keberangkatan,
     "Odong-Odong 1 (Start: Halte 1 FPTK/FPTI)": [
         "FPTK/FPTI ➔ FIP ➔ FPMIPA",
-        "FPOK ➔ FPEB ➔ FPIPS",
-        "FPBS ➔ FPSD ➔ FK",
+        "FK ➔ FPOK ➔ FPEB",
+        "FPSD ➔ FPIPS ➔ FPBS",
         "FPTK/FPTI ➔ FIP ➔ FPMIPA",
-        "FPOK ➔ FPEB ➔ FPIPS",
-        "FPBS ➔ FPSD ➔ FK"
+        "FK ➔ FPOK ➔ FPEB",
+        "FPSD ➔ FPIPS ➔ FPBS"
     ],
-    "Odong-Odong 2 (Start: Halte 6 FPMIPA)": [
-        "FPMIPA ➔ FPOK ➔ FPEB",
-        "FPIPS ➔ FPBS ➔ FPSD",
-        "FK ➔ FPTK/FPTI ➔ FIP",
-        "FPMIPA ➔ FPOK ➔ FPEB",
-        "FPIPS ➔ FPBS ➔ FPSD",
-        "FK ➔ FPTK/FPTI ➔ FIP"
+    "Odong-Odong 2 (Start: Halte 3 FPMIPA)": [
+        "FPMIPA ➔ FK ➔ FPOK",
+        "FPEB ➔ FPSD ➔ FPIPS",
+        "FPBS ➔ FPTK/FPTI ➔ FIP",
+        "FPMIPA ➔ FK ➔ FPOK",
+        "FPEB ➔ FPSD ➔ FPIPS",
+        "FPBS ➔ FPTK/FPTI ➔ FIP"
     ],
-    "Odong-Odong 3 (Start: Halte 5 FPEB)": [
-        "FPEB ➔ FPIPS ➔ FPBS",
-        "FPSD ➔ FK ➔ FPTK/FPTI",
-        "FIP ➔ FPMIPA ➔ FPOK",
-        "FPEB ➔ FPIPS ➔ FPBS",
-        "FPSD ➔ FK ➔ FPTK/FPTI",
-        "FIP ➔ FPMIPA ➔ FPOK"
+    "Odong-Odong 3 (Start: Halte 6 FPEB)": [
+        "FPEB ➔ FPSD ➔ FPIPS",
+        "FPBS ➔ FPTK/FPTI ➔ FIP",
+        "FPMIPA ➔ FK ➔ FPOK",
+        "FPEB ➔ FPSD ➔ FPIPS",
+        "FPBS ➔ FPTK/FPTI ➔ FIP",
+        "FPMIPA ➔ FK ➔ FPOK"
     ]
 }
 
@@ -120,24 +120,24 @@ df_jadwal = pd.DataFrame(jadwal_data)
 st.table(df_jadwal)
 
 # ---------------------------------------------------------
-# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (FOLIUM)
+# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (DENAH RESMI UPI)
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas & Rute Kampus UPI")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas (Sesuai Denah Resmi UPI)")
 
-m = folium.Map(location=[-6.8612, 107.5930], zoom_start=17)
+m = folium.Map(location=[-6.8610, 107.5925], zoom_start=16)
 
-# Daftar 9 Halte dalam urutan geografis lintasan lingkar kampus
+# Daftar 9 Halte Fakultas berdasarkan Denah Resmi UPI
 halte_9 = [
-    {"nama": "Halte 1: FPTK / FPTI (Gerbang Bawah - Depot 1)", "pos": [-6.8638, 107.5930], "color": "blue"},
-    {"nama": "Halte 2: FIP (Purbasari)", "pos": [-6.8618, 107.5922], "color": "green"},
-    {"nama": "Halte 6: FPMIPA / Kampus Atas (Depot 2)", "pos": [-6.8605, 107.5908], "color": "red"},
-    {"nama": "Halte 7: FPOK / Gymnasium", "pos": [-6.8582, 107.5900], "color": "darkred"},
-    {"nama": "Halte 5: FPEB / Rektorat (Depot 3)", "pos": [-6.8600, 107.5942], "color": "orange"},
-    {"nama": "Halte 3: FPIPS", "pos": [-6.8608, 107.5946], "color": "purple"},
-    {"nama": "Halte 4: FPBS", "pos": [-6.8612, 107.5952], "color": "darkblue"},
-    {"nama": "Halte 8: FPSD", "pos": [-6.8618, 107.5954], "color": "darkgreen"},
-    {"nama": "Halte 9: FK (Poliklinik / Kedokteran)", "pos": [-6.8625, 107.5938], "color": "cadetblue"}
+    {"nama": "Halte 1: FPTK / FPTI (No. 9/I - Gerbang Bawah - Depot 1)", "pos": [-6.8635, 107.5930], "color": "blue"},
+    {"nama": "Halte 2: FIP (No. 3/C - Fakultas Ilmu Pendidikan)", "pos": [-6.8620, 107.5915], "color": "green"},
+    {"nama": "Halte 3: FPMIPA (No. 2/B - Depot 2)", "pos": [-6.8610, 107.5900], "color": "red"},
+    {"nama": "Halte 4: FK (No. 1/A - Fakultas Kedokteran)", "pos": [-6.8600, 107.5902], "color": "cadetblue"},
+    {"nama": "Halte 5: FPOK (No. 4/D - Gymnasium / Olahraga)", "pos": [-6.8585, 107.5895], "color": "darkred"},
+    {"nama": "Halte 6: FPEB (No. 5/E - Depot 3)", "pos": [-6.8580, 107.5935], "color": "orange"},
+    {"nama": "Halte 7: FPSD (No. 6/F - Seni dan Desain)", "pos": [-6.8580, 107.5950], "color": "darkgreen"},
+    {"nama": "Halte 8: FPIPS (No. 7/G - Ilmu Pengetahuan Sosial)", "pos": [-6.8598, 107.5948], "color": "purple"},
+    {"nama": "Halte 9: FPBS (No. 8/H - Bahasa dan Sastra)", "pos": [-6.8612, 107.5952], "color": "darkblue"}
 ]
 
 coords = []
@@ -153,6 +153,6 @@ for h in halte_9:
 # Menutup rute lingkar kampus (kembali ke Halte 1 FPTK/FPTI)
 coords.append(halte_9[0]["pos"])
 
-folium.PolyLine(coords, color="darkblue", weight=3, opacity=0.8, tooltip="Rute Lingkar Odong-Odong 9 Fakultas UPI").add_to(m)
+folium.PolyLine(coords, color="darkblue", weight=3, opacity=0.8, tooltip="Rute Lingkar Odong-Odong 9 Fakultas (Denah UPI)").add_to(m)
 
 st_folium(m, width=1100, height=500)
