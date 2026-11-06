@@ -35,15 +35,15 @@ st.sidebar.info("💡 **Petunjuk**: Mengubah kecepatan, dwell time, atau jarak l
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
 
 leg_list = [
-    "Leg 1: Halte 1 (FPTI - Gedung A-D Gerbang Bawah) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
-    "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Harsojo)",
-    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Gedung FPOK Utama)",
-    "Leg 4: Halte 4 (FPOK - Gedung FPOK) ➔ Halte 5 (FK - Gedung Fakultas Kedokteran)",
-    "Leg 5: Halte 5 (FK - Gedung Kedokteran) ➔ Halte 6 (FPEB - Gedung FPEB Utama)",
-    "Leg 6: Halte 6 (FPEB - Gedung FPEB) ➔ Halte 7 (FPSD - Gedung FPSD Utama)",
-    "Leg 7: Halte 7 (FPSD - Gedung FPSD) ➔ Halte 8 (FPBS - Gedung FPBS / ATM Center)",
-    "Leg 8: Halte 8 (FPBS - Gedung FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS Utama)",
-    "Leg 9: Halte 9 (FPIPS - Gedung FPIPS) ➔ Halte 1 (FPTI - Gedung A-D Gerbang Bawah)"
+    "Leg 1: Halte 1 (FPTI) ➔ Halte 2 (FIP)",
+    "Leg 2: Halte 2 (FIP) ➔ Halte 3 (FPMIPA)",
+    "Leg 3: Halte 3 (FPMIPA) ➔ Halte 4 (FPOK)",
+    "Leg 4: Halte 4 (FPOK) ➔ Halte 5 (FK)",
+    "Leg 5: Halte 5 (FK) ➔ Halte 6 (FPEB)",
+    "Leg 6: Halte 6 (FPEB) ➔ Halte 7 (FPSD)",
+    "Leg 7: Halte 7 (FPSD) ➔ Halte 8 (FPBS)",
+    "Leg 8: Halte 8 (FPBS) ➔ Halte 9 (FPIPS)",
+    "Leg 9: Halte 9 (FPIPS) ➔ Halte 1 (FPTI)"
 ]
 
 jarak_list = [
