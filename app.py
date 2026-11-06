@@ -149,27 +149,15 @@ data_koordinat_awal = {
 df_coords = pd.DataFrame(data_koordinat_awal)
 df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
 
-# Inisialisasi Peta Folium dengan URL CDN Direct Carto Voyager (100% Bebas Watermark & API Key)
+# Inisialisasi Peta Folium bawaan resmi OpenStreetMap (100% Bebas Watermark & Bebas API Key)
 m = folium.Map(
     location=[-6.8610, 107.5925], 
     zoom_start=17, 
-    tiles="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{y}/{x}{r}.png",
-    attr="&copy; OpenStreetMap &copy; CARTO"
+    tiles="OpenStreetMap"
 )
 
-# Layer Peta Tambahan: Esri World Street Map HD
-folium.TileLayer(
-    tiles="[suspicious link removed]{z}/{y}/{x}",
-    attr="Tiles &copy; Esri",
-    name="Peta Jalan Esri HD"
-).add_to(m)
-
-# Layer Peta Tambahan: Carto Light
-folium.TileLayer(
-    tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{y}/{x}{r}.png",
-    attr="&copy; CARTO",
-    name="Peta Minimalis Light"
-).add_to(m)
+# Layer Peta Tambahan: CartoDB Positron (Bebas Watermark)
+folium.TileLayer('CartoDB positron', name='Peta Minimalis Light').add_to(m)
 
 folium.LatLngPopup().add_to(m)
 
