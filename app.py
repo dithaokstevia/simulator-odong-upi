@@ -45,7 +45,7 @@ leg_list = [
     "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTI - Depan Gedung A-D)"
 ]
 
-jarak_list =
+jarak_list = [280, 300, 250, 300, 350, 200, 220, 250, 300]
 
 data_jarak = {
     "Leg Rute Lingkar Kampus": leg_list,
@@ -129,7 +129,6 @@ st.markdown("---")
 st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat")
 st.write("Jika posisi penanda di peta masih kurang pas beberapa meter, Anda dapat **mengubah angka Latitude / Longitude langsung pada tabel di bawah ini**:")
 
-# Tabel Koordinat Interaktif yang dapat diedit langsung pengguna di browser
 data_koordinat_awal = {
     "Nama Halte": [
         "Halte 1: FPTI (Depan Gedung A-D)",
@@ -150,7 +149,7 @@ data_koordinat_awal = {
 df_coords = pd.DataFrame(data_koordinat_awal)
 df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
 
-# Inisialisasi Peta Folium (Peta Jalan Resmi Bebas API Key)
+# Inisialisasi Peta Folium (Bebas API Key)
 m = folium.Map(location=[-6.8610, 107.5925], zoom_start=17, tiles="OpenStreetMap")
 folium.TileLayer('CartoDB positron', name='Peta Minimalis Light').add_to(m)
 folium.LatLngPopup().add_to(m)
@@ -169,7 +168,7 @@ for index, row in df_coords_edited.iterrows():
 
 # Menutup rute lingkar kampus
 if len(coords) > 0:
-    coords.append(coords)
+    coords.append(coords[0])
     folium.PolyLine(coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
 folium.LayerControl().add_to(m)
