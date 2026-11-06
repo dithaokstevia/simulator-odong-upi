@@ -34,19 +34,23 @@ st.sidebar.info("💡 **Catatan**: Mengubah angka pada panel akan otomatis menga
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
 st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai rute lingkar kampus (Arahan Video & Screenshot OSM):")
 
+leg_list = [
+    "Leg 1: Halte 1 (FPTK/FPTI - Depan Gedung Parkir & Gedung D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
+    "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Jl. Harsojo)",
+    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Jl. Harsojo / Gymnasium)",
+    "Leg 4: Halte 4 (FPOK - Jl. Harsojo) ➔ Halte 5 (FK - Fakultas Kedokteran / Jl. Mahaguru)",
+    "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Depan LPPM / Jl. Roeslan Abdulgani)",
+    "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Depan FPSD / Taman)",
+    "Leg 7: Halte 7 (FPSD - Taman / Jl. Roeslan Abdulgani) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
+    "Leg 8: Halte 8 (FPBS - ATM Center FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS / Jl. Sri Baduga)",
+    "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTK/FPTI - Depan Gedung Parkir & Gedung D)"
+]
+
+jarak_list = [280, 300, 250, 300, 350, 200, 220, 250, 300]
+
 data_jarak = {
-    "Leg Rute Lingkar Kampus (Arahan Video & Screenshot OSM)": [
-        "Leg 1: Halte 1 (FPTK/FPTI - Depan Gedung Parkir & Gedung D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
-        "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Jl. Harsojo)",
-        "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Jl. Harsojo / Gymnasium)",
-        "Leg 4: Halte 4 (FPOK - Jl. Harsojo) ➔ Halte 5 (FK - Fakultas Kedokteran / Jl. Mahaguru)",
-        "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Depan LPPM / Jl. Roeslan Abdulgani)",
-        "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Depan FPSD / Taman)",
-        "Leg 7: Halte 7 (FPSD - Taman / Jl. Roeslan Abdulgani) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
-        "Leg 8: Halte 8 (FPBS - ATM Center FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS / Jl. Sri Baduga)",
-        "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTK/FPTI - Depan Gedung Parkir & Gedung D)"
-    ],
-    "Estimasi Jarak (Meter)": [1-3]
+    "Leg Rute Lingkar Kampus": leg_list,
+    "Estimasi Jarak (Meter)": jarak_list
 }
 
 df_jarak = pd.DataFrame(data_jarak)
@@ -151,7 +155,7 @@ for h in halte_9:
     ).add_to(m)
 
 # Menutup rute lingkar kampus (kembali ke Halte 1 FPTK/FPTI Depan Gedung Parkir)
-coords.append(halte_9["pos"])
+coords.append(halte_9[0]["pos"])
 
 folium.PolyLine(coords, color="darkblue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Fakultas Presisi Video & OSM").add_to(m)
 
