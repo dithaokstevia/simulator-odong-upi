@@ -149,15 +149,15 @@ data_koordinat_awal = {
 df_coords = pd.DataFrame(data_koordinat_awal)
 df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
 
-# Inisialisasi Peta Folium bawaan resmi OpenStreetMap (100% Bebas Watermark & Bebas API Key)
+# Peta OpenStreetMap Server Direct (100% Gratis, Bebas API Key & Tanpa Watermark)
+tile_url = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+
 m = folium.Map(
     location=[-6.8610, 107.5925], 
     zoom_start=17, 
-    tiles="OpenStreetMap"
+    tiles=tile_url,
+    attr="&copy; OpenStreetMap contributors"
 )
-
-# Layer Peta Tambahan: CartoDB Positron (Bebas Watermark)
-folium.TileLayer('CartoDB positron', name='Peta Minimalis Light').add_to(m)
 
 folium.LatLngPopup().add_to(m)
 
@@ -175,8 +175,7 @@ for index, row in df_coords_edited.iterrows():
 
 # Menutup rute lingkar kampus (menghubungkan kembali ke Halte 1)
 if len(coords) > 0:
-    route_coords = list(coords) + [coords[0]]
+    route_coords = coords + [coords[0]]
     folium.PolyLine(route_coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
-folium.LayerControl().add_to(m)
 st_folium(m, width=1100, height=550)
