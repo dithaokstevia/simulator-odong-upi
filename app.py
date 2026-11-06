@@ -26,7 +26,7 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Petunjuk Peta**: Gunakan tombol layer di kanan atas peta untuk berganti gaya tampilan peta jika ingin mencoba tampilan lain!")
+st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordinat halte langsung pada tabel untuk menggeser posisi penanda secara live!")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
@@ -127,7 +127,7 @@ st.table(df_jadwal)
 # ---------------------------------------------------------
 st.markdown("---")
 st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat")
-st.write("Ubah angka Latitude / Longitude langsung pada tabel di bawah untuk menggeser posisi halte di peta secara live:")
+st.write("Ubah angka Latitude / Longitude langsung pada tabel di bawah ini untuk menggeser titik halte secara live:")
 
 data_koordinat_awal = {
     "Nama Halte": [
@@ -149,16 +149,27 @@ data_koordinat_awal = {
 df_coords = pd.DataFrame(data_koordinat_awal)
 df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
 
-# Inisialisasi Peta Folium dengan CartoDB Voyager (Server Ubin Peta Berwarna Paling Andal & Bebas Blokir)
+# Inisialisasi Peta Folium dengan URL CDN Direct Carto Voyager (100% Bebas Watermark & API Key)
 m = folium.Map(
     location=[-6.8610, 107.5925], 
     zoom_start=17, 
-    tiles="CartoDB voyager"
+    tiles="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{y}/{x}{r}.png",
+    attr="&copy; OpenStreetMap &copy; CARTO"
 )
 
-# Layer Peta Alternatif (OpenStreetMap Standard & CartoDB Positron)
-folium.TileLayer('OpenStreetMap', name='OpenStreetMap Standard').add_to(m)
-folium.TileLayer('CartoDB positron', name='CartoDB Light Minimalis').add_to(m)
+# Layer Peta Tambahan: Esri World Street Map HD
+folium.TileLayer(
+    tiles="[suspicious link removed]{z}/{y}/{x}",
+    attr="Tiles &copy; Esri",
+    name="Peta Jalan Esri HD"
+).add_to(m)
+
+# Layer Peta Tambahan: Carto Light
+folium.TileLayer(
+    tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{y}/{x}{r}.png",
+    attr="&copy; CARTO",
+    name="Peta Minimalis Light"
+).add_to(m)
 
 folium.LatLngPopup().add_to(m)
 
@@ -174,10 +185,10 @@ for index, row in df_coords_edited.iterrows():
         icon=folium.Icon(color=row["Warna Icon"], icon="bus", prefix="fa")
     ).add_to(m)
 
-# Menutup rute lingkar kampus
+# Menutup rute lingkar kampus (menghubungkan kembali ke Halte 1)
 if len(coords) > 0:
-    coords.append(coords[0])
-    folium.PolyLine(coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
+    route_coords = list(coords) + [coords[0]]
+    folium.PolyLine(route_coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
 folium.LayerControl().add_to(m)
 st_folium(m, width=1100, height=550)
