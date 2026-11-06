@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi Screenshot 025247 & Timetable Dinamis)")
+st.caption("Kelompok 6 - Ditha Okstevia, Eisha Karima Fidareini, Nailah Amani Nuryaman, Nesa Dwi Rizqi Marsha Reneta, Wafa Nidaul Hasanah - Proyek MSTR")
 st.markdown("---")
 
 # ---------------------------------------------------------
