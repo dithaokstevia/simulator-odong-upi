@@ -183,9 +183,9 @@ for index, row in df_coords_edited.iterrows():
         icon=folium.Icon(color=row["Warna Icon"], icon="bus", prefix="fa")
     ).add_to(m)
 
-# Menutup rute lingkar kampus (menghubungkan kembali ke Halte 1)
+# Menutup rute lingkar kampus (menghubungkan kembali Halte 9 ke Halte 1)
 if len(coords) > 0:
-    route_coords = coords + [coords]
+    route_coords = coords + [coords[0]]
     folium.PolyLine(route_coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
 st_folium(m, width=1100, height=550)
