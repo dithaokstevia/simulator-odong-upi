@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi Mode Satelit HD & Klik Koordinat)")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Fitur Edit Koordinat Live & Bebas API Key)")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -26,27 +26,26 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Petunjuk Peta**: Klik area manapun pada peta di bawah untuk menampilkan titik koordinat latitude & longitude secara langsung!")
+st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak leg rute ATAU mengubah angka koordinat titik halte secara langsung pada tabel di bawah untuk menyesuaikan posisi peta!")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
 # ---------------------------------------------------------
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
-st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai alur rute lingkar kampus:")
 
 leg_list = [
     "Leg 1: Halte 1 (FPTI - Depan Gedung A-D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
     "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Jl. Harsojo)",
-    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Samping Gymnasium / Jl. Harsojo)",
+    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Jl. Harsojo)",
     "Leg 4: Halte 4 (FPOK - Jl. Harsojo) ➔ Halte 5 (FK - Fakultas Kedokteran / Jl. Mahaguru)",
-    "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Depan LPPM / Jl. Roeslan Abdulgani)",
-    "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Depan FPSD / Taman)",
-    "Leg 7: Halte 7 (FPSD - Taman / Jl. Roeslan) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
+    "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Jl. Roeslan Abdulgani)",
+    "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Jl. Roeslan Abdulgani)",
+    "Leg 7: Halte 7 (FPSD - Jl. Roeslan Abdulgani) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
     "Leg 8: Halte 8 (FPBS - ATM Center FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS / Jl. Sri Baduga)",
     "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTI - Depan Gedung A-D)"
 ]
 
-jarak_list = [280, 300, 250, 300, 350, 200, 220, 250, 300]
+jarak_list =
 
 data_jarak = {
     "Leg Rute Lingkar Kampus": leg_list,
@@ -124,55 +123,54 @@ df_jadwal = pd.DataFrame(jadwal_data)
 st.table(df_jadwal)
 
 # ---------------------------------------------------------
-# 6. VISUALISASI PETA INTERAKTIF MODE SATELIT HD & LAYERS
+# 6. PANEL EDIT KOORDINAT LIVE & PETA INTERAKTIF
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte Mode Satelit HD & Fitur Klik Koordinat")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat")
+st.write("Jika posisi penanda di peta masih kurang pas beberapa meter, Anda dapat **mengubah angka Latitude / Longitude langsung pada tabel di bawah ini**:")
 
-# Inisialisasi Peta Folium dengan default Satelit Esri HD
-m = folium.Map(
-    location=[-6.8610, 107.5925], 
-    zoom_start=17,
-    tiles="[suspicious link removed]{z}/{y}/{x}",
-    attr="Esri Satellite HD"
-)
+# Tabel Koordinat Interaktif yang dapat diedit langsung pengguna di browser
+data_koordinat_awal = {
+    "Nama Halte": [
+        "Halte 1: FPTI (Depan Gedung A-D)",
+        "Halte 2: FIP Baru (Jl. Mahaguru)",
+        "Halte 3: FPMIPA (Gedung JICA / Harsojo)",
+        "Halte 4: FPOK (Gedung FPOK / Harsojo)",
+        "Halte 5: FK (Fakultas Kedokteran)",
+        "Halte 6: FPEB (Depan LPPM / Roeslan)",
+        "Halte 7: FPSD (Depan FPSD / Roeslan)",
+        "Halte 8: FPBS (ATM Center FPBS)",
+        "Halte 9: FPIPS (Gedung FPIPS)"
+    ],
+    "Latitude": [-6.8637, -6.8614, -6.8618, -6.8603, -6.8600, -6.8588, -6.8584, -6.8590, -6.8600],
+    "Longitude": [107.5922, 107.5914, 107.5898, 107.5900, 107.5918, 107.5932, 107.5944, 107.5948, 107.5938],
+    "Warna Icon": ["blue", "green", "red", "darkred", "cadetblue", "orange", "darkgreen", "darkblue", "purple"]
+}
 
-# Menambahkan Peta Jalan (OpenStreetMap & CartoDB) sebagai Pilihan Layer
-folium.TileLayer('OpenStreetMap', name='Peta Jalan (OSM)').add_to(m)
+df_coords = pd.DataFrame(data_koordinat_awal)
+df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
+
+# Inisialisasi Peta Folium (Peta Jalan Resmi Bebas API Key)
+m = folium.Map(location=[-6.8610, 107.5925], zoom_start=17, tiles="OpenStreetMap")
 folium.TileLayer('CartoDB positron', name='Peta Minimalis Light').add_to(m)
-
-# Fitur Klik Koordinat: Klik di peta untuk memunculkan Popup Lat/Lon secara presisi
 folium.LatLngPopup().add_to(m)
 
-# 9 Halte presisi sesuai posisi visual fisik fisik gedung di Kampus UPI Silihwangi:
-halte_9 = [
-    {"nama": "Halte 1: FPTI (Depan Gedung A-D FPTI - Gerbang Bawah - Depot 1)", "pos": [-6.8637, 107.5922], "color": "blue"},
-    {"nama": "Halte 2: FIP (Gedung FIP Baru - Jalan Mahaguru / Purbasari)", "pos": [-6.8614, 107.5914], "color": "green"},
-    {"nama": "Halte 3: FPMIPA (Gedung JICA / FPMIPA-A - Jalan Harsojo - Depot 2)", "pos": [-6.8618, 107.5898], "color": "red"},
-    {"nama": "Halte 4: FPOK (Gedung FPOK - Jalan Harsojo)", "pos": [-6.8603, 107.5900], "color": "darkred"},
-    {"nama": "Halte 5: FK (Fakultas Kedokteran - Jalan Mahaguru)", "pos": [-6.8600, 107.5918], "color": "cadetblue"},
-    {"nama": "Halte 6: FPEB (Gedung FPEB / Depan LPPM - Jl. Roeslan Abdulgani - Depot 3)", "pos": [-6.8588, 107.5932], "color": "orange"},
-    {"nama": "Halte 7: FPSD (Gedung FPSD / Taman - Jl. Roeslan Abdulgani)", "pos": [-6.8584, 107.5944], "color": "darkgreen"},
-    {"nama": "Halte 8: FPBS (ATM Center FPBS - Jl. Sri Baduga / Muh Yamin)", "pos": [-6.8590, 107.5948], "color": "darkblue"},
-    {"nama": "Halte 9: FPIPS (Gedung FPIPS - Jl. Sri Baduga)", "pos": [-6.8600, 107.5938], "color": "purple"}
-]
-
+# Membaca data koordinat hasil editan live
 coords = []
-for h in halte_9:
-    coords.append(h["pos"])
+for index, row in df_coords_edited.iterrows():
+    pos = [row["Latitude"], row["Longitude"]]
+    coords.append(pos)
     folium.Marker(
-        location=h["pos"],
-        popup=h["nama"],
-        tooltip=h["nama"],
-        icon=folium.Icon(color=h["color"], icon="bus", prefix="fa")
+        location=pos,
+        popup=row["Nama Halte"],
+        tooltip=row["Nama Halte"],
+        icon=folium.Icon(color=row["Warna Icon"], icon="bus", prefix="fa")
     ).add_to(m)
 
 # Menutup rute lingkar kampus
-coords.append(halte_9[0]["pos"])
+if len(coords) > 0:
+    coords.append(coords)
+    folium.PolyLine(coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
-folium.PolyLine(coords, color="yellow", weight=4, opacity=0.9, tooltip="Rute Lingkar 9 Fakultas Presisi Satelit HD").add_to(m)
-
-# Menambahkan Control Layer di kanan atas peta
 folium.LayerControl().add_to(m)
-
 st_folium(m, width=1100, height=550)
