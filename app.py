@@ -26,7 +26,7 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordinat halte langsung pada tabel di bawah untuk menggeser posisi penanda secara live!")
+st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordinat halte secara langsung pada tabel di bawah untuk menyesuaikan posisi penanda di peta.")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
@@ -45,7 +45,7 @@ leg_list = [
     "Leg 9: Halte 9 (FPIPS - Gedung FPIPS) ➔ Halte 1 (FPTI - Gedung A-D Gerbang Bawah)"
 ]
 
-jarak_list = [280, 300, 250, 300, 350, 200, 220, 250, 300]
+jarak_list = [11-15]
 
 data_jarak = {
     "Leg Rute Lingkar Kampus": leg_list,
@@ -131,7 +131,7 @@ st.write("Ubah angka Latitude / Longitude langsung pada tabel di bawah ini untuk
 
 data_koordinat_awal = {
     "Nama Halte": [
-        "Halte 1: FPTI (Gedung A-D)",
+        "Halte 1: FPTI (Gedung A-D Gerbang Bawah)",
         "Halte 2: FIP Baru (Gedung FIP Baru)",
         "Halte 3: FPMIPA (Gedung JICA FPMIPA)",
         "Halte 4: FPOK (Gedung FPOK Utama)",
@@ -141,8 +141,8 @@ data_koordinat_awal = {
         "Halte 8: FPBS (Gedung FPBS / ATM Center)",
         "Halte 9: FPIPS (Gedung FPIPS Utama)"
     ],
-    "Latitude": [-6.8643, -6.8614, -6.8612, -6.8600, -6.8596, -6.8588, -6.8584, -6.8590, -6.8598],
-    "Longitude": [107.5934, 107.5916, 107.5898, 107.5898, 107.5914, 107.5928, 107.5942, 107.5948, 107.5938],
+    "Latitude": [-6.8637, -6.8614, -6.8612, -6.8600, -6.8596, -6.8588, -6.8584, -6.8590, -6.8598],
+    "Longitude": [107.5925, 107.5916, 107.5898, 107.5898, 107.5914, 107.5928, 107.5942, 107.5948, 107.5938],
     "Warna Icon": ["blue", "green", "red", "darkred", "cadetblue", "orange", "darkgreen", "darkblue", "purple"]
 }
 
@@ -164,7 +164,7 @@ folium.LatLngPopup().add_to(m)
 # Membaca data koordinat hasil editan live
 coords = []
 for index, row in df_coords_edited.iterrows():
-    pos = [row["Latitude"], row["Longitude"]]
+    pos = [float(row["Latitude"]), float(row["Longitude"])]
     coords.append(pos)
     folium.Marker(
         location=pos,
@@ -175,7 +175,7 @@ for index, row in df_coords_edited.iterrows():
 
 # Menutup rute lingkar kampus (menghubungkan kembali ke Halte 1)
 if len(coords) > 0:
-    route_coords = coords + [coords[0]]
+    route_coords = coords + [coords]
     folium.PolyLine(route_coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
 st_folium(m, width=1100, height=550)
