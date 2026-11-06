@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi 9 Halte Lingkaran Hijau OSM)")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi Mode Satelit HD & Klik Koordinat)")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -26,7 +26,7 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Catatan**: Mengubah angka pada panel akan otomatis mengalkulasi rumus matematika waktu tempuh, headway, waktu tunggu, dan tabel jadwal di bawah.")
+st.sidebar.info("💡 **Petunjuk Peta**: Klik area manapun pada peta di bawah untuk menampilkan titik koordinat latitude & longitude secara langsung!")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
@@ -37,11 +37,11 @@ st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah
 leg_list = [
     "Leg 1: Halte 1 (FPTI - Depan Gedung A-D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
     "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Jl. Harsojo)",
-    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Jl. Harsojo)",
+    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Samping Gymnasium / Jl. Harsojo)",
     "Leg 4: Halte 4 (FPOK - Jl. Harsojo) ➔ Halte 5 (FK - Fakultas Kedokteran / Jl. Mahaguru)",
-    "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Jl. Roeslan Abdulgani)",
-    "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Jl. Roeslan Abdulgani)",
-    "Leg 7: Halte 7 (FPSD - Jl. Roeslan Abdulgani) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
+    "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Depan LPPM / Jl. Roeslan Abdulgani)",
+    "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Depan FPSD / Taman)",
+    "Leg 7: Halte 7 (FPSD - Taman / Jl. Roeslan) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
     "Leg 8: Halte 8 (FPBS - ATM Center FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS / Jl. Sri Baduga)",
     "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTI - Depan Gedung A-D)"
 ]
@@ -124,14 +124,27 @@ df_jadwal = pd.DataFrame(jadwal_data)
 st.table(df_jadwal)
 
 # ---------------------------------------------------------
-# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (PRESISI LINGKARAN HIJAU)
+# 6. VISUALISASI PETA INTERAKTIF MODE SATELIT HD & LAYERS
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas (Presisi Tangkapan Layar OSM)")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte Mode Satelit HD & Fitur Klik Koordinat")
 
-m = folium.Map(location=[-6.8610, 107.5925], zoom_start=17)
+# Inisialisasi Peta Folium dengan default Satelit Esri HD
+m = folium.Map(
+    location=[-6.8610, 107.5925], 
+    zoom_start=17,
+    tiles="[suspicious link removed]{z}/{y}/{x}",
+    attr="Esri Satellite HD"
+)
 
-# 9 Halte presisi sesuai posisi lingkaran hijau dari 9 foto OSM:
+# Menambahkan Peta Jalan (OpenStreetMap & CartoDB) sebagai Pilihan Layer
+folium.TileLayer('OpenStreetMap', name='Peta Jalan (OSM)').add_to(m)
+folium.TileLayer('CartoDB positron', name='Peta Minimalis Light').add_to(m)
+
+# Fitur Klik Koordinat: Klik di peta untuk memunculkan Popup Lat/Lon secara presisi
+folium.LatLngPopup().add_to(m)
+
+# 9 Halte presisi sesuai posisi visual fisik fisik gedung di Kampus UPI Silihwangi:
 halte_9 = [
     {"nama": "Halte 1: FPTI (Depan Gedung A-D FPTI - Gerbang Bawah - Depot 1)", "pos": [-6.8637, 107.5922], "color": "blue"},
     {"nama": "Halte 2: FIP (Gedung FIP Baru - Jalan Mahaguru / Purbasari)", "pos": [-6.8614, 107.5914], "color": "green"},
@@ -154,9 +167,12 @@ for h in halte_9:
         icon=folium.Icon(color=h["color"], icon="bus", prefix="fa")
     ).add_to(m)
 
-# Menutup rute lingkar kampus (kembali ke Halte 1 FPTI Depan Gedung A-D)
+# Menutup rute lingkar kampus
 coords.append(halte_9[0]["pos"])
 
-folium.PolyLine(coords, color="darkblue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Fakultas Presisi OSM").add_to(m)
+folium.PolyLine(coords, color="yellow", weight=4, opacity=0.9, tooltip="Rute Lingkar 9 Fakultas Presisi Satelit HD").add_to(m)
 
-st_folium(m, width=1100, height=500)
+# Menambahkan Control Layer di kanan atas peta
+folium.LayerControl().add_to(m)
+
+st_folium(m, width=1100, height=550)
