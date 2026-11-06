@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Fitur Edit Koordinat Live & Bebas API Key)")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -26,7 +26,7 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak leg rute ATAU mengubah angka koordinat titik halte secara langsung pada tabel di bawah untuk menyesuaikan posisi peta!")
+st.sidebar.info("💡 **Petunjuk Peta**: Gunakan tombol layer di kanan atas peta untuk berganti gaya tampilan peta jika ingin mencoba tampilan lain!")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
@@ -127,7 +127,7 @@ st.table(df_jadwal)
 # ---------------------------------------------------------
 st.markdown("---")
 st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat")
-st.write("Jika posisi penanda di peta masih kurang pas beberapa meter, Anda dapat **mengubah angka Latitude / Longitude langsung pada tabel di bawah ini**:")
+st.write("Ubah angka Latitude / Longitude langsung pada tabel di bawah untuk menggeser posisi halte di peta secara live:")
 
 data_koordinat_awal = {
     "Nama Halte": [
@@ -149,9 +149,17 @@ data_koordinat_awal = {
 df_coords = pd.DataFrame(data_koordinat_awal)
 df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
 
-# Inisialisasi Peta Folium (Bebas API Key)
-m = folium.Map(location=[-6.8610, 107.5925], zoom_start=17, tiles="OpenStreetMap")
-folium.TileLayer('CartoDB positron', name='Peta Minimalis Light').add_to(m)
+# Inisialisasi Peta Folium dengan CartoDB Voyager (Server Ubin Peta Berwarna Paling Andal & Bebas Blokir)
+m = folium.Map(
+    location=[-6.8610, 107.5925], 
+    zoom_start=17, 
+    tiles="CartoDB voyager"
+)
+
+# Layer Peta Alternatif (OpenStreetMap Standard & CartoDB Positron)
+folium.TileLayer('OpenStreetMap', name='OpenStreetMap Standard').add_to(m)
+folium.TileLayer('CartoDB positron', name='CartoDB Light Minimalis').add_to(m)
+
 folium.LatLngPopup().add_to(m)
 
 # Membaca data koordinat hasil editan live
