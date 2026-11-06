@@ -151,8 +151,8 @@ data_koordinat_awal = {
         "Halte 8: FPBS (Gedung FPBS / ATM Center)",
         "Halte 9: FPIPS (Gedung FPIPS Utama)"
     ],
-    "Latitude": [-6.8637, -6.8614, -6.8612, -6.8600, -6.8596, -6.8588, -6.8584, -6.8590, -6.8598],
-    "Longitude": [107.5925, 107.5916, 107.5898, 107.5898, 107.5914, 107.5928, 107.5942, 107.5948, 107.5938],
+    "Latitude": [-6.8637, -6.8614, -6.8612, -6.8600, -6.8596, -6.8588, -6.8582, -6.8588, -6.8598],
+    "Longitude": [107.5925, 107.5914, 107.5898, 107.5898, 107.5914, 107.5928, 107.5942, 107.5948, 107.5938],
     "Warna Icon": ["blue", "green", "red", "darkred", "cadetblue", "orange", "darkgreen", "darkblue", "purple"]
 }
 
@@ -185,7 +185,7 @@ for index, row in df_coords_edited.iterrows():
 
 # Menutup rute lingkar kampus (menghubungkan kembali Halte 9 ke Halte 1)
 if len(coords) > 0:
-    route_coords = coords + [coords[0]]
+    route_coords = coords + [coords]
     folium.PolyLine(route_coords, color="blue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Halte UPI").add_to(m)
 
 st_folium(m, width=1100, height=550)
