@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Denah Resmi Kode A - I)")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi 9 Fakultas - Denah Resmi UPI)")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -29,24 +29,24 @@ jumlah_armada = 3  # Fixed 3 Armada Aktif
 st.sidebar.info("💡 **Catatan**: Mengubah angka pada panel akan otomatis mengalkulasi rumus matematika waktu tempuh, headway, waktu tunggu, dan tabel jadwal di bawah.")
 
 # ---------------------------------------------------------
-# 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE DENAH 2 CODE A-I)
+# 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS RESMI UPI)
 # ---------------------------------------------------------
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
-st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai alur rute lingkar Denah 2 UPI:")
+st.write("Masukkan perkiraan jarak antar-halte (dalam Meter) pada tabel di bawah ini sesuai rute lingkar kampus (Denah Resmi UPI):")
 
 data_jarak = {
-    "Leg Rute Lingkar Kampus (Denah 2 UPI)": [
-        "Leg 1: Halte 1 (FPTK/FPTI - Gedung I) ➔ Halte 2 (FIP - Gedung C)",
-        "Leg 2: Halte 2 (FIP - Gedung C) ➔ Halte 3 (FPMIPA - Gedung B)",
-        "Leg 3: Halte 3 (FPMIPA - Gedung B) ➔ Halte 4 (FK - Gedung A)",
-        "Leg 4: Halte 4 (FK - Gedung A) ➔ Halte 5 (FPOK - Gedung D)",
-        "Leg 5: Halte 5 (FPOK - Gedung D) ➔ Halte 6 (FPEB - Gedung E)",
-        "Leg 6: Halte 6 (FPEB - Gedung E) ➔ Halte 7 (FPSD - Gedung F)",
-        "Leg 7: Halte 7 (FPSD - Gedung F) ➔ Halte 8 (FPIPS - Gedung G)",
-        "Leg 8: Halte 8 (FPIPS - Gedung G) ➔ Halte 9 (FPBS - Gedung H)",
-        "Leg 9: Halte 9 (FPBS - Gedung H) ➔ Halte 1 (FPTK/FPTI - Gedung I)"
+    "Leg Rute Lingkar Kampus (Denah Resmi UPI)": [
+        "Leg 1: Halte 1 (FPTK/FPTI - Gedung I / No.9) ➔ Halte 2 (FIP - Gedung C / No.3)",
+        "Leg 2: Halte 2 (FIP - Gedung C) ➔ Halte 3 (FPMIPA - Gedung B / No.2)",
+        "Leg 3: Halte 3 (FPMIPA - Gedung B) ➔ Halte 4 (FK - Gedung A / No.1)",
+        "Leg 4: Halte 4 (FK - Gedung A) ➔ Halte 5 (FPOK - Gedung D / No.4)",
+        "Leg 5: Halte 5 (FPOK - Gedung D) ➔ Halte 6 (FPEB - Gedung E / No.5)",
+        "Leg 6: Halte 6 (FPEB - Gedung E) ➔ Halte 7 (FPSD - Gedung F / No.6)",
+        "Leg 7: Halte 7 (FPSD - Gedung F) ➔ Halte 8 (FPIPS - Gedung G / No.7)",
+        "Leg 8: Halte 8 (FPIPS - Gedung G) ➔ Halte 9 (FPBS - Gedung H / No.8)",
+        "Leg 9: Halte 9 (FPBS - Gedung H) ➔ Halte 1 (FPTK/FPTI - Gedung I / No.9)"
     ],
-    "Estimasi Jarak (Meter)": [200, 150, 120, 180, 400, 150, 220, 150, 350]
+    "Estimasi Jarak (Meter)": [280, 300, 250, 320, 450, 300, 320, 280, 350]
 }
 
 df_jarak = pd.DataFrame(data_jarak)
@@ -120,24 +120,24 @@ df_jadwal = pd.DataFrame(jadwal_data)
 st.table(df_jadwal)
 
 # ---------------------------------------------------------
-# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (DENAH 2 UPI)
+# 6. VISUALISASI PETA INTERAKTIF 9 HALTE (OPENSTREETMAP PRESISI)
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas (Denah 2 Kode A - I)")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte Tetap Fakultas (Peta Presisi Denah UPI)")
 
 m = folium.Map(location=[-6.8605, 107.5925], zoom_start=16)
 
-# 9 Halte sesuai posisi geografis presisi Denah 2 UPI
+# 9 Halte sesuai posisi geografis presisi Denah Resmi Kampus UPI Bumi Siliwangi
 halte_9 = [
-    {"nama": "Halte 1: FPTK / FPTI (Gedung I - Gerbang Bawah - Depot 1)", "pos": [-6.8632, 107.5925], "color": "blue"},
-    {"nama": "Halte 2: FIP (Gedung C - Ilmu Pendidikan)", "pos": [-6.8618, 107.5912], "color": "green"},
-    {"nama": "Halte 3: FPMIPA (Gedung B - MIPA - Depot 2)", "pos": [-6.8612, 107.5900], "color": "red"},
-    {"nama": "Halte 4: FK (Gedung A - Kedokteran)", "pos": [-6.8603, 107.5903], "color": "cadetblue"},
-    {"nama": "Halte 5: FPOK (Gedung D - Olahraga & Kesehatan)", "pos": [-6.8588, 107.5898], "color": "darkred"},
-    {"nama": "Halte 6: FPEB (Gedung E - Ekonomi & Bisnis - Depot 3)", "pos": [-6.8580, 107.5932], "color": "orange"},
-    {"nama": "Halte 7: FPSD (Gedung F - Seni & Desain)", "pos": [-6.8580, 107.5945], "color": "darkgreen"},
-    {"nama": "Halte 8: FPIPS (Gedung G - Ilmu Pengetahuan Sosial)", "pos": [-6.8598, 107.5942], "color": "purple"},
-    {"nama": "Halte 9: FPBS (Gedung H - Bahasa & Sastra)", "pos": [-6.8608, 107.5948], "color": "darkblue"}
+    {"nama": "Halte 1: FPTK / FPTI (Gedung I / No. 9 - Gerbang Bawah - Depot 1)", "pos": [-6.8633, 107.5932], "color": "blue"},
+    {"nama": "Halte 2: FIP (Gedung C / No. 3 - Ilmu Pendidikan)", "pos": [-6.8622, 107.5912], "color": "green"},
+    {"nama": "Halte 3: FPMIPA (Gedung B / No. 2 - MIPA - Depot 2)", "pos": [-6.8610, 107.5898], "color": "red"},
+    {"nama": "Halte 4: FK (Gedung A / No. 1 - Kedokteran)", "pos": [-6.8598, 107.5902], "color": "cadetblue"},
+    {"nama": "Halte 5: FPOK (Gedung D / No. 4 - Gymnasium / Olahraga)", "pos": [-6.8585, 107.5894], "color": "darkred"},
+    {"nama": "Halte 6: FPEB (Gedung E / No. 5 - Ekonomi & Bisnis - Depot 3)", "pos": [-6.8576, 107.5930], "color": "orange"},
+    {"nama": "Halte 7: FPSD (Gedung F / No. 6 - Seni & Desain)", "pos": [-6.8576, 107.5946], "color": "darkgreen"},
+    {"nama": "Halte 8: FPIPS (Gedung G / No. 7 - Ilmu Pengetahuan Sosial)", "pos": [-6.8595, 107.5942], "color": "purple"},
+    {"nama": "Halte 9: FPBS (Gedung H / No. 8 - Bahasa & Sastra)", "pos": [-6.8608, 107.5950], "color": "darkblue"}
 ]
 
 coords = []
@@ -153,6 +153,6 @@ for h in halte_9:
 # Menutup rute lingkar kampus (kembali ke Halte 1 FPTK/FPTI)
 coords.append(halte_9[0]["pos"])
 
-folium.PolyLine(coords, color="darkblue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Fakultas Denah 2 UPI").add_to(m)
+folium.PolyLine(coords, color="darkblue", weight=4, opacity=0.8, tooltip="Rute Lingkar 9 Fakultas Denah UPI").add_to(m)
 
 st_folium(m, width=1100, height=500)
