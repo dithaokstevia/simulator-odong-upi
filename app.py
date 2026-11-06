@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 st.title("🚌 Simulator Parametrik Rute & Penjadwalan Odong-Odong UPI")
-st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026")
+st.caption("Kelompok 6 - Proyek MSTR Kampus UPI Silihwangi 2026 (Presisi Gedung Fakultas)")
 st.markdown("---")
 
 # ---------------------------------------------------------
@@ -26,7 +26,7 @@ kecepatan_kmjam = st.sidebar.slider("Kecepatan Rata-Rata Odong-Odong (km/jam):",
 dwell_time = st.sidebar.number_input("Waktu Henti di Halte / Dwell Time (Menit):", min_value=1, max_value=5, value=2, step=1)
 jumlah_armada = 3  # Fixed 3 Armada Aktif
 
-st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordinat halte langsung pada tabel untuk menggeser posisi penanda secara live!")
+st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordinat halte langsung pada tabel di bawah untuk menggeser posisi penanda secara live!")
 
 # ---------------------------------------------------------
 # 3. TABEL MATRIKS JARAK DINAMIS (9 HALTE FAKULTAS)
@@ -34,15 +34,15 @@ st.sidebar.info("💡 **Petunjuk**: Anda dapat mengedit jarak rute atau koordina
 st.subheader("1️⃣ Matriks Jarak Antar-Halte Tetap 9 Fakultas Utama (Dapat Diedit)")
 
 leg_list = [
-    "Leg 1: Halte 1 (FPTI - Depan Gedung A-D) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
-    "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Jl. Harsojo)",
-    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Jl. Harsojo)",
-    "Leg 4: Halte 4 (FPOK - Jl. Harsojo) ➔ Halte 5 (FK - Fakultas Kedokteran / Jl. Mahaguru)",
-    "Leg 5: Halte 5 (FK - Jl. Mahaguru) ➔ Halte 6 (FPEB - Jl. Roeslan Abdulgani)",
-    "Leg 6: Halte 6 (FPEB - Jl. Roeslan Abdulgani) ➔ Halte 7 (FPSD - Jl. Roeslan Abdulgani)",
-    "Leg 7: Halte 7 (FPSD - Jl. Roeslan Abdulgani) ➔ Halte 8 (FPBS - ATM Center FPBS / Jl. Sri Baduga)",
-    "Leg 8: Halte 8 (FPBS - ATM Center FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS / Jl. Sri Baduga)",
-    "Leg 9: Halte 9 (FPIPS - Jl. Sri Baduga) ➔ Halte 1 (FPTI - Depan Gedung A-D)"
+    "Leg 1: Halte 1 (FPTI - Depan Gedung FPTI) ➔ Halte 2 (FIP Baru - Jl. Mahaguru)",
+    "Leg 2: Halte 2 (FIP Baru - Jl. Mahaguru) ➔ Halte 3 (FPMIPA - Gedung JICA / Harsojo)",
+    "Leg 3: Halte 3 (FPMIPA - Gedung JICA) ➔ Halte 4 (FPOK - Gedung FPOK Utama)",
+    "Leg 4: Halte 4 (FPOK - Gedung FPOK) ➔ Halte 5 (FK - Gedung Fakultas Kedokteran)",
+    "Leg 5: Halte 5 (FK - Gedung Kedokteran) ➔ Halte 6 (FPEB - Gedung FPEB Utama)",
+    "Leg 6: Halte 6 (FPEB - Gedung FPEB) ➔ Halte 7 (FPSD - Gedung FPSD Utama)",
+    "Leg 7: Halte 7 (FPSD - Gedung FPSD) ➔ Halte 8 (FPBS - Gedung FPBS / ATM Center)",
+    "Leg 8: Halte 8 (FPBS - Gedung FPBS) ➔ Halte 9 (FPIPS - Gedung FPIPS Utama)",
+    "Leg 9: Halte 9 (FPIPS - Gedung FPIPS) ➔ Halte 1 (FPTI - Depan Gedung FPTI)"
 ]
 
 jarak_list = [280, 300, 250, 300, 350, 200, 220, 250, 300]
@@ -93,7 +93,7 @@ else:
 
 jadwal_data = {
     "Jam Keberangkatan": jam_keberangkatan,
-    "Odong-Odong 1 (Start: Halte 1 FPTI - Depan Gedung A-D)": [
+    "Odong-Odong 1 (Start: Halte 1 FPTI - Depan Gedung FPTI)": [
         "FPTI ➔ FIP Baru ➔ FPMIPA",
         "FPOK ➔ FK ➔ FPEB",
         "FPSD ➔ FPBS ➔ FPIPS ➔ FPTI",
@@ -109,7 +109,7 @@ jadwal_data = {
         "FPSD ➔ FPBS ➔ FPIPS",
         "FPTI ➔ FIP Baru ➔ FPMIPA"
     ],
-    "Odong-Odong 3 (Start: Halte 6 FPEB - Depan LPPM / Roeslan Abdulgani)": [
+    "Odong-Odong 3 (Start: Halte 6 FPEB - Gedung FPEB Utama)": [
         "FPEB ➔ FPSD ➔ FPBS ➔ FPIPS",
         "FPTI ➔ FIP Baru ➔ FPMIPA",
         "FPOK ➔ FK ➔ FPEB",
@@ -131,29 +131,29 @@ st.write("Ubah angka Latitude / Longitude langsung pada tabel di bawah ini untuk
 
 data_koordinat_awal = {
     "Nama Halte": [
-        "Halte 1: FPTI (Depan Gedung A-D)",
-        "Halte 2: FIP Baru (Jl. Mahaguru)",
-        "Halte 3: FPMIPA (Gedung JICA / Harsojo)",
-        "Halte 4: FPOK (Gedung FPOK / Harsojo)",
-        "Halte 5: FK (Fakultas Kedokteran)",
-        "Halte 6: FPEB (Depan LPPM / Roeslan)",
-        "Halte 7: FPSD (Depan FPSD / Roeslan)",
-        "Halte 8: FPBS (ATM Center FPBS)",
-        "Halte 9: FPIPS (Gedung FPIPS)"
+        "Halte 1: FPTI (Gedung FPTI)",
+        "Halte 2: FIP Baru (Gedung FIP Baru)",
+        "Halte 3: FPMIPA (Gedung JICA FPMIPA)",
+        "Halte 4: FPOK (Gedung FPOK Utama)",
+        "Halte 5: FK (Gedung Fakultas Kedokteran)",
+        "Halte 6: FPEB (Gedung FPEB Utama)",
+        "Halte 7: FPSD (Gedung FPSD Utama)",
+        "Halte 8: FPBS (Gedung FPBS / ATM Center)",
+        "Halte 9: FPIPS (Gedung FPIPS Utama)"
     ],
-    "Latitude": [-6.8637, -6.8614, -6.8618, -6.8603, -6.8600, -6.8588, -6.8584, -6.8590, -6.8600],
-    "Longitude": [107.5922, 107.5914, 107.5898, 107.5900, 107.5918, 107.5932, 107.5944, 107.5948, 107.5938],
+    "Latitude": [-6.8637, -6.8614, -6.8618, -6.8588, -6.8602, -6.8580, -6.8578, -6.8590, -6.8600],
+    "Longitude": [107.5922, 107.5914, 107.5898, 107.5892, 107.5910, 107.5932, 107.5950, 107.5948, 107.5938],
     "Warna Icon": ["blue", "green", "red", "darkred", "cadetblue", "orange", "darkgreen", "darkblue", "purple"]
 }
 
 df_coords = pd.DataFrame(data_koordinat_awal)
 df_coords_edited = st.data_editor(df_coords, num_rows="fixed", use_container_width=True, key="editor_coords_live")
 
-# Peta OpenStreetMap Server Direct (100% Gratis, Bebas API Key & Tanpa Watermark)
+# Server Ubin Peta Direct OpenStreetMap (100% Gratis, Bebas API Key & Bebas Watermark)
 tile_url = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
 
 m = folium.Map(
-    location=[-6.8610, 107.5925], 
+    location=[-6.8608, 107.5925], 
     zoom_start=17, 
     tiles=tile_url,
     attr="&copy; OpenStreetMap contributors"
