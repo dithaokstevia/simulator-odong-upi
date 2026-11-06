@@ -45,7 +45,17 @@ leg_list = [
     "Leg 9: Halte 9 (FPIPS - Gedung FPIPS) ➔ Halte 1 (FPTI - Gedung A-D Gerbang Bawah)"
 ]
 
-jarak_list = [11-15]
+jarak_list = [
+    280,
+    300,
+    250,
+    300,
+    350,
+    200,
+    220,
+    250,
+    300
+]
 
 data_jarak = {
     "Leg Rute Lingkar Kampus": leg_list,
