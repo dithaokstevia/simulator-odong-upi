@@ -99,15 +99,15 @@ st.subheader("2️⃣ Tabel Jadwal Presisi Waktu Kedatangan di Setiap Halte (Tim
 st.write("Jadwal di bawah ini **terkalkulasi secara otomatis** berdasarkan waktu tempuh dan dwell time untuk setiap odong-odong:")
 
 halte_names = [
-    "Halte 1 (FPTI - Gerbang Bawah)",
-    "Halte 2 (FIP Baru)",
-    "Halte 3 (FPMIPA - JICA)",
-    "Halte 4 (FPOK Utama)",
-    "Halte 5 (FK Kedokteran)",
-    "Halte 6 (FPEB Utama)",
-    "Halte 7 (FPSD Utama)",
-    "Halte 8 (FPBS / ATM Center)",
-    "Halte 9 (FPIPS Utama)"
+    "Halte 1 (FPTI)",
+    "Halte 2 (FIP)",
+    "Halte 3 (FPMIPA)",
+    "Halte 4 (FPOK)",
+    "Halte 5 (FK)",
+    "Halte 6 (FPEB)",
+    "Halte 7 (FPSD)",
+    "Halte 8 (FPBS)",
+    "Halte 9 (FPIPS)"
 ]
 
 leg_durations = df_edited["Total Waktu Leg (Menit)"].tolist()
@@ -172,7 +172,7 @@ with tab3:
 # 6. PANEL EDIT KOORDINAT LIVE & PETA INTERAKTIF
 # ---------------------------------------------------------
 st.markdown("---")
-st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat (Presisi Screenshot 025247)")
+st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat")
 st.write("Angka koordinat di bawah telah disesuaikan, Anda tetap dapat mengedit angkanya secara live jika diperlukan:")
 
 data_koordinat_awal = {
