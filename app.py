@@ -169,11 +169,11 @@ with tab3:
     st.dataframe(df_o3, use_container_width=True, hide_index=True)
 
 # ---------------------------------------------------------
-# 6. PANEL EDIT KOORDINAT LIVE & PETA INTERAKTIF (PRESISI SCREENSHOT 025247)
+# 6. PANEL EDIT KOORDINAT LIVE & PETA INTERAKTIF
 # ---------------------------------------------------------
 st.markdown("---")
 st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat (Presisi Screenshot 025247)")
-st.write("Angka koordinat di bawah telah disesuaikan presisi, Anda tetap dapat mengedit angkanya secara live jika diperlukan:")
+st.write("Angka koordinat di bawah telah disesuaikan, Anda tetap dapat mengedit angkanya secara live jika diperlukan:")
 
 data_koordinat_awal = {
     "Nama Halte": [
