@@ -173,19 +173,19 @@ with tab3:
 # ---------------------------------------------------------
 st.markdown("---")
 st.subheader("3️⃣ Visualisasi Peta 9 Halte & Panel Fine-Tuning Koordinat (Presisi Screenshot 025247)")
-st.write("Angka koordinat di bawah disesuaikan presisi dengan tangkapan layar **Screenshot 2026-11-07 025247.png**. Anda tetap dapat mengedit angkanya secara live jika diperlukan:")
+st.write("Angka koordinat di bawah telah disesuaikan presisi, Anda tetap dapat mengedit angkanya secara live jika diperlukan:")
 
 data_koordinat_awal = {
     "Nama Halte": [
-        "Halte 1: FPTI (Gedung A-D Gerbang Bawah)",
-        "Halte 2: FIP Baru (Gedung FIP Baru)",
-        "Halte 3: FPMIPA (Gedung JICA FPMIPA)",
-        "Halte 4: FPOK (Gedung FPOK Utama)",
-        "Halte 5: FK (Gedung Fakultas Kedokteran)",
-        "Halte 6: FPEB (Gedung FPEB Utama)",
-        "Halte 7: FPSD (Gedung FPSD Utama)",
-        "Halte 8: FPBS (Gedung FPBS / ATM Center)",
-        "Halte 9: FPIPS (Gedung FPIPS Utama)"
+        "Halte 1: FPTI",
+        "Halte 2: FIP Baru",
+        "Halte 3: FPMIPA",
+        "Halte 4: FPOK",
+        "Halte 5: FK",
+        "Halte 6: FPEB",
+        "Halte 7: FPSD",
+        "Halte 8: FPBS",
+        "Halte 9: FPIPS"
     ],
     "Latitude": [-6.8637, -6.8617, -6.8620, -6.8610, -6.8608, -6.8603, -6.8602, -6.8606, -6.8613],
     "Longitude": [107.5925, 107.5911, 107.5904, 107.5900, 107.5912, 107.5925, 107.5933, 107.5940, 107.5927],
